@@ -2,6 +2,8 @@ import numpy as np
 from scipy import signal
 from scipy.io import wavfile
 
+from load import load_filter
+
 def filter_wavfile(wavpath, outwavpath, lfilter_path, rfilter_path):
     """Apply sensimetrics filters to a WAV file, saving out a filtered version.
     
@@ -9,6 +11,16 @@ def filter_wavfile(wavpath, outwavpath, lfilter_path, rfilter_path):
     ----------
     wavpath : str
         Path to WAV file you want to filter. Must have 44100 Hz sampling rate.
+    
+    outwavpath : str
+        Path where filtered WAV file will be saved. Output will always be stereo,
+        44100 Hz, and 32-bit int.
+    
+    lfilter_path : str
+        Path to .bin file containing filter for the left channel, supplied by Sensimetrics.
+    
+    rfilter_path : str
+        Path to .bin file containing filter for the right channel.
     """
     # load wav file
     wav_fs, wavdata = wavfile.read(wavpath)
