@@ -43,13 +43,15 @@ def filter_wavfile(wavpath, outwavpath, lfilter_path, rfilter_path):
     rfilt, _ = load_filter(rfilter_path)
     
     # filter the two channels
-    if wavdata.dtype == np.int32:
-        NORM = 2147483647
-    else:
-        NORM = 1.0
+    #if wavdata.dtype == np.int32:
+    #    NORM = 2147483647
+    #else:
+    #    NORM = 1.0
+    NORM = np.iinfo(wavdata.dtype).max
+    NORM32 = 2147483647
     
-    lwav_filt = signal.convolve(lwav.astype(float) / NORM, lfilt, 'same') * NORM
-    rwav_filt = signal.convolve(rwav.astype(float) / NORM, rfilt, 'same') * NORM
+    lwav_filt = signal.convolve(lwav.astype(float) / NORM, lfilt, 'same') * NORM32
+    rwav_filt = signal.convolve(rwav.astype(float) / NORM, rfilt, 'same') * NORM32
     
     # write the result
     wavdata_filt = np.vstack([lwav_filt, rwav_filt]).T.astype(np.int32)
