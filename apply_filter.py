@@ -49,10 +49,11 @@ def filter_wavfile(wavpath, outwavpath, lfilter_path, rfilter_path):
     #    NORM = 1.0
     NORM = np.iinfo(wavdata.dtype).max
     NORM32 = 2147483647
+    NORM16 = 32767
     
-    lwav_filt = signal.convolve(lwav.astype(float) / NORM, lfilt, 'same') * NORM32
-    rwav_filt = signal.convolve(rwav.astype(float) / NORM, rfilt, 'same') * NORM32
+    lwav_filt = signal.convolve(lwav.astype(float) / NORM, lfilt, 'same') * NORM16
+    rwav_filt = signal.convolve(rwav.astype(float) / NORM, rfilt, 'same') * NORM16
     
     # write the result
-    wavdata_filt = np.vstack([lwav_filt, rwav_filt]).T.astype(np.int32)
+    wavdata_filt = np.vstack([lwav_filt, rwav_filt]).T.astype(np.int16)
     wavfile.write(outwavpath, 44100, wavdata_filt)
