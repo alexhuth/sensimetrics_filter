@@ -17,7 +17,7 @@ def load_filter(fpath):
     fs : int = 44100
         Sampling rate in Hz, hard-coded to 44100.
     """
-    with open(fpath) as f:
-        filt = np.fromstring(f.read(), np.float)
+    with open(fpath, 'rb') as f:
+        filt = np.frombuffer(f.read(), dtype=np.float)
     
     return filt, 44100
